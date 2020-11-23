@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <!--
+Love Letters reimplementation
+copyright (c) 2014 Nick Montfort <nickm@nickm.com>
+based on a 1952 program by Christopher Strachey
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
+IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+Updated 10 March 2015 to correct the word lists. Sources are photographs
+of Christoper Stachey's notes in the Bodleian Library from J.R. Carpenter
+and table 14.1 in Noah Wardrip-Fruin's article "Digital Media Archaeology."
+
+Updated 28 August 2019 to add a link to "The Ferranti Mark 1 Gallery."
+Updated Nov 2020 for the "Algorithmic poetry" class, School of Machines and Make Believe
+
+
+Can you make the love letter generator be more human?
+Can you change the word database for it to perform about other topics?
+What kind of topics would be relevant?
+How does the work change by modifying the complexity of its processes?
+What does the texts gain from that action?
+Will the statement of the work be different if we increase/decrease its complexity?
+
+
+
+-->
+    <style type="text/css">
+        /* <![CDATA[ */
+        
+        body {
+            background: #fff;
+            color: #222;
+            margin: 4em 0;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            line-height: 48px;
+            font-style: italic;
+            font-size: 28px;
+        }
+        
+        a {
+            color: #117;
+            text-decoration: none;
+        }
+        
+        #main {
+            padding-top: 18px;
+            width: 50%;
+            margin: 0 auto;
+        }
+        
+        #main div {
+            font-weight: bold;
+            padding-bottom: 9px;
+        }
+        /* ]]> */
+    </style>
+
+   
+    <script type="text/javascript">
+        var t = 0,
+            first = ['DARLING', 'DEAR', 'HONEY', 'JEWEL'],
+            second = ['DUCK', 'LOVE', 'MOPPET', 'SWEETHEART'];
+
+
+        function rand_range(maximum) {
+            return Math.floor(Math.random() * (maximum + 1));
+        }
+
+        function choose(array) {
+            return array[rand_range(array.length - 1)];
+        }
+
+        function maybe(words) {
+            if (Math.random() > 0.5) {
+                return ' ' + choose(words);
+            }
+            return '';
+        }
+
+        function longer() {
+            return ' MY' + maybe(adjectives) + ' ' + choose(nouns) + maybe(adverbs) + ' ' + choose(verbs) + ' YOUR' + maybe(adjectives) + ' ' + choose(nouns) + '.';
+        }
+
+        function shorter() {
+            return ' ' + choose(adjectives) + ' ' + choose(nouns) + '.';
+        }
+
+        function letter() {
+            var i, type, you_are = false,
+                text = '';
+            text = text + choose(first) + ' ' + choose(second) + '<br /><br />';
+
+            for (i = 0; i < 5; i = i + 1) {
+                type = choose(['longer', 'shorter']);
+                if (type === 'longer') {
+                    text = text + longer();
+                    you_are = false;
+                } else {
+                    if (you_are) {
+                        text = text.slice(0, -1) + ': MY' + shorter();
+                        you_are = false;
+                    } else {
+                        text = text + ' YOU ARE MY' + shorter();
+                        you_are = true;
+                    }
+                }
+            }
+            text = text + '<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YOURS ' + choose(adverbs) + '<br /><br />' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M.U.C.';
+            return text;
+        }
+
+        function litany() {
+            var last, 
+                main = document.getElementById('main');
+            if (4 > t) {
+                t += 1;
+            } else {
+                main.removeChild(document.getElementById('main').firstChild);
+            }
+            last = document.createElement('div');
+            main.innerHTML = letter();
+            // main.appendChild(last);
+        }
+
+        function produce_litany() {
+            litany();
+            setInterval(litany, 7000);
+        }
+    </script>
+
+    <script>
+        let adjectives,
+            nouns,
+            adverbs,
+            verbs;
+
+
+        fetch('data/app/output/vocab.json')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+
+                adverbs = data.adverbs;
+                nouns = data.nouns;
+                verbs = data.verbs;
+                adjectives = data.adjectives;
+
+                produce_litany();
+            });
+
+    </script>
+
+
+    <title>Love Letter Generator</title>
+</head>
+
+<body>
+    <div id="main"></div>
+</body>
+
+</html>
