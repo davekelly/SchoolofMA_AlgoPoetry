@@ -1,0 +1,32 @@
+[
+    {
+        "title": "Our journey had advanced --",
+        "file": "our-journey-had-advanced.json",
+        "directory": "our-journey-had-advanced"
+    },
+    
+    {
+        "title": "Sonnet 118: Like as, to make our appetite more keen",
+        "file": "sonnet-118-like-as-to-make-our-appetite-more-keen.json",
+        "directory": "sonnet-118-like-as-to-make-our-appetite-more-keen"
+    },
+
+    {
+        "title": "Success is counted sweetest",
+        "file": "success-is-counted-sweetest.json",
+        "directory": "success-is-counted-sweetest"
+    },
+
+    {
+        "title": "The Canterbury Tales. The Parson's Tale.",
+        "file": "the-canterbury-tales-the-parson-s-tale.json",
+        "directory": "the-canterbury-tales-the-parson-s-tale"
+    },
+
+    {
+        "title": "The One who could repeat the Summer day.",
+        "file": "the-one-who-could-repeat-the-summer-day.json",
+        "directory": "the-one-who-could-repeat-the-summer-day"
+    }
+
+]
