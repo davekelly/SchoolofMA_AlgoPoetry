@@ -16,10 +16,8 @@ function App() {
         <h1>An Emotional Machine</h1>        
       </header>
 
-      <div className="row">
-        <div className="col-sm-4">
+      <div className="row">        
           <Poem />
-        </div>
       </div>
     </div>
   );
