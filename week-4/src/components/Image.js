@@ -1,13 +1,21 @@
 import React from 'react';
 
 
-const Image = (poem) => {
+const Image = ({currentIndex, line_count, image_directory}) => {
 
-   
+    let imageArray = [];
+
+    if(currentIndex > line_count){
+        return null;
+    }
+
+    for (let index = 1; index < line_count; index++) {
+        let file = 'poems/' + image_directory + '/' + index + '.jpg';
+        imageArray.push( file);
+    }
+
     return(
-        <div>
-           Hi
-        </div>
+        <img src={imageArray[currentIndex]} className="machineImagined"/>
     )
     
 

@@ -1,3 +1,5 @@
+
+h1{text-transform: lowercase;}
 .App {
   text-align: center;
 }
@@ -24,15 +26,32 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+
+
+img.machineImagined{width: 100%;}
+
+img.machineImagined{
+  -webkit-animation: fade 4s alternate infinite;
+  animation: fade 4s alternate infinite;
+  display: block;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@-webkit-keyframes fade {
+  0% {
+    opacity: 1;
   }
-  to {
-    transform: rotate(360deg);
+
+  100% {
+    opacity: .4;
+  }
+
+}
+
+@keyframes fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: .4;
   }
 }

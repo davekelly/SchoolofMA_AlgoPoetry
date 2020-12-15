@@ -8,7 +8,9 @@ const Poem = () => {
 
     
     const [poems, updatePoems] = useState( null );
+    const [poemData, updatePoemData] = useState( null );
     const [poem, updatePoem] = useState( null );
+    const [lines, updateLines] = useState( null );
     
 
     useEffect(() => {
@@ -16,15 +18,17 @@ const Poem = () => {
             fetch("poems/config.json")
                 .then(response => response.json())
                 .then(( data ) => {
-                    console.log(data)                
+                    // console.log(data)                
                     updatePoems(data);
-                    let poemData = data[Math.floor(Math.random() * data.length)];
+                    let meta = data[Math.floor(Math.random() * data.length)];
 
-                    fetch("poems/" + poemData.file) 
+                    fetch("poems/" + meta.file) 
                         .then(response => response.json())
                         .then(( poemText ) => {
-                            console.log('poemText', poemText);
+                            // console.log('poemText', poemText);
+                            updatePoemData(meta);
                             updatePoem(poemText);  
+                            updateLines(poemText.lines);
                         });
                     
                 })
@@ -34,25 +38,29 @@ const Poem = () => {
         }else{
             updatePoem(poems[Math.floor(Math.random() * poems.length)]);     
         }
+
+        
     }, [poems]);
 
 
-    if(!poem){
-        return null;
+
+    if(!poem || !lines){
+        return 'Loading...';
     }
        
+    console.log('lines', lines);
 
     return(
         
         <div className="container">
-            <header className="row">
+            <header className="row pb-5 mb-5 pt-5">
                 <div className="col">
                     <h1> { poem.title }</h1>
                     <cite>{poem.author} </cite>
                 </div>
             </header>
-            <section className="col">
-                <Text poem={poem} />
+            <section>
+                <Text lines={lines} line_count={poem.linecount} image_directory={poemData.directory} />
             </section>           
         </div>
     )
